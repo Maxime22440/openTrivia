@@ -1,20 +1,54 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Open Trivia
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div *ngIf="!begin">
+    <ion-list>
+      <ion-item>
+        <ion-input type="text" label="Votre pseudo" labelPlacement="floating" [(ngModel)]="pseudo"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-select label="Difficulté" [(ngModel)]="difficulty">
+          <ion-select-option *ngFor="let diff of listDifficulties" value="{{ diff }}">
+            {{ diff }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-toggle [(ngModel)]="saveInfos"> Sauvegarger des informations</ion-toggle>
+      </ion-item>
+    </ion-list>
+    <ion-button expand="full" (click)="beginGame()">Commencer</ion-button>
+  </div>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <div *ngIf="begin">
+    <h2>
+      <ion-text color="primary">Bienvenue {{ pseudo }}</ion-text>
+    </h2>
+    <h3 class="ion-text-center">De quelle couleur est le cheval blanc d'Henri IV ?</h3>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="block" (click)="checkAnswer('blanc')">Blanc</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button expand="block" (click)="checkAnswer('noir')">Noir</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="block" (click)="checkAnswer('marron')">Marron</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button expand="block" (click)="checkAnswer('je ne sais pas')">Je ne sais pas</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-button expand="full" *ngIf="nextQuestion">Question suivante</ion-button>
   </div>
 </ion-content>
